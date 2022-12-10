@@ -1,5 +1,4 @@
 bottle==0.12.23
-certifi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_0ek9yztvu3/croot/certifi_1665076692562/work/certifi
 charset-normalizer==2.1.1
 idna==3.4
 requests==2.28.1

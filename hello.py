@@ -1,15 +1,17 @@
 import werobot
 
 token = 'token'
-APP_ID = 'wx279feebefe92554b'
-APP_SECRET = '7d66328e707024e8e538f1726ec3d573'
+TEST_APP_ID = 'wx279feebefe92554b'
+TEST_APP_SECRET = 'a926374c46290d02d7ed37771bae8f64'
+
+ACTUAL_APP_SECRET = '713cd7f2002ffcd9c84e7fcd7635448f'
+ACTUAL_APP_ID = 'wx96478d0e33536a7a'
 
 robot = werobot.WeRoBot(token=token)
-# 让服务器监听在 0.0.0.0:80
 robot.config['HOST'] = '0.0.0.0'
-robot.config['PORT'] = 80
-robot.config['APP_ID'] = APP_ID 
-robot.config['APP_SECRET'] = APP_SECRET
+robot.config['PORT'] = '8008'
+robot.config['APP_ID'] = ACTUAL_APP_ID 
+robot.config['APP_SECRET'] = ACTUAL_APP_SECRET
 
 
 @robot.handler
