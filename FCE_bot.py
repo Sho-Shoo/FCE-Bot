@@ -1,4 +1,5 @@
 import werobot
+import FCE_services as FCE
 
 ################################################################################
 # Server setup
@@ -33,12 +34,7 @@ subscribe_msg = logo + "\n" + subscribe_txt
 ################################################################################
 @robot.text
 def fce_by_course_num(message):
-    try: 
-        course_num = int(message.content)
-    except: 
-        return "Invalid course number"
-
-    return f"{course_num} FCE info: ... "
+    return FCE.get_fce_info(message.content)
 
 @robot.subscribe 
 def get_subscribe_msg(): 
