@@ -9,12 +9,11 @@ ACTUAL_APP_ID = 'wx96478d0e33536a7a'
 
 robot = werobot.WeRoBot(token=token)
 robot.config['HOST'] = '0.0.0.0'
-robot.config['PORT'] = '8008'
-robot.config['APP_ID'] = ACTUAL_APP_ID 
-robot.config['APP_SECRET'] = ACTUAL_APP_SECRET
+robot.config['PORT'] = '8080'
+robot.config['APP_ID'] = TEST_APP_ID 
+robot.config['APP_SECRET'] = TEST_APP_SECRET
 
-
-@robot.handler
+@robot.text
 def hello(message):
     return 'Hello World!'
 
