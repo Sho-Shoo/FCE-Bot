@@ -11,7 +11,8 @@ def get_fce_info(query: str):
         return get_fce_info_by_cnum(course_num)
     except ValueError: 
         return get_fce_info_by_cname(query) 
-    finally:
+    except Exception as e:
+        print(e)
         return "Unknown error encountered. Try again. "
 
 
