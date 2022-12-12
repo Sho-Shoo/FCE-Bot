@@ -1,3 +1,6 @@
+# os stuff
+.DS_Store
+
 # werobot session stuff 
 werobot_session.sqlite3
 
