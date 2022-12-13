@@ -2,6 +2,11 @@ def get_printout(row):
         cnum, instructor, cname, hours, rating = row
         return f"Course number: {cnum} \nInstructor: {instructor} \nCourse name: {cname} \nWeekly hours: {hours} \nRating: {rating}/5 \n====================\n"
 
+def cleanup_query(query: str) -> str: 
+    res = query.replace("-", "") 
+    res = res.strip()
+    return res 
+
 class FCE_services: 
 
     def __init__(self, cursor) -> None:
@@ -32,6 +37,7 @@ class FCE_services:
         return "Search by course name currently unsupported. "
 
     def get_fce_info(self, query: str):
+        query = cleanup_query(query)
         try: 
             course_num = int(query)
             return self.get_fce_info_by_cnum(course_num)
