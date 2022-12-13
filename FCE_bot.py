@@ -6,12 +6,14 @@ import sys
 
 def get_auth(auth_file): 
     """
-    Returns authorization information as a tuple
+    Returns authorization information from a file as a tuple
     """
     tup = tuple()
     with open(auth_file, 'r') as auth: 
         infos = auth.readlines() 
-        for info in infos: tup += (info,)
+        for info in infos: 
+            info = info.replace('\n', '')
+            tup += (info,)
 
     return tup
 
