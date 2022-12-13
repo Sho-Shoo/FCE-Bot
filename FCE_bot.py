@@ -1,5 +1,7 @@
 import werobot
-import FCE_services as FCE
+import FCE_services
+import psycopg2
+import sys
 
 ################################################################################
 # Server setup
@@ -19,7 +21,27 @@ robot.config['APP_SECRET'] = ACTUAL_APP_SECRET
 ################################################################################
 
 ################################################################################
-# Other
+# DB connection setup
+################################################################################
+try:
+    db, user = 'fce_db', 'ec2-user'
+    if len(sys.argv) >= 2:
+        db = sys.argv[1]
+    if len(sys.argv) >= 3:
+        user = sys.argv[2]
+    conn = psycopg2.connect(database=db, user=user)
+    conn.autocommit = True
+    cur = conn.cursor()
+    print("Successfully connected to database. ")
+except psycopg2.Error as e:
+    print("Unable to open connection: %s" % (e,))
+    exit()
+except Exception as e: 
+    print(f"Other DB connection error: {e}")
+    exit()
+
+################################################################################
+# Other stuff
 ################################################################################
 
 # formulate subscribe message 
@@ -33,8 +55,10 @@ subscribe_msg = logo + "\n" + subscribe_txt
 ################################################################################
 # Handler definitions 
 ################################################################################
+FCE = FCE_services.FCE_services(cur)
+
 @robot.text
-def fce_by_course_num(message):
+def fce_by_text(message):
     return FCE.get_fce_info(message.content)
 
 @robot.subscribe 
