@@ -63,6 +63,7 @@ if __name__ =="__main__":
     FCE = FCE_services(cur)
 
     print(FCE.get_fce_info("15122"))
+    print(FCE.get_fce_info("15112"))
     print(FCE.get_fce_info("Fundamentals"))
 
 
