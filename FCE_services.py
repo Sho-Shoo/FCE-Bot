@@ -18,15 +18,18 @@ class FCE_services:
         self.cur.execute(cmd)
         rows = self.cur.fetchall()
 
-        res_str = "====================\n"
-        for row in rows: 
-            row_str = get_printout(row)
-            res_str += row_str 
+        if len(rows) == 0: 
+            return "No records found. "
+        else: 
+            res_str = "====================\n"
+            for row in rows: 
+                row_str = get_printout(row)
+                res_str += row_str 
 
-        return res_str
+            return res_str
 
     def get_fce_info_by_cname(self, cname: str): 
-        return "Search by course name currently unsupported ... "
+        return "Search by course name currently unsupported. "
 
     def get_fce_info(self, query: str):
         try: 
@@ -65,5 +68,6 @@ if __name__ =="__main__":
     print(FCE.get_fce_info("15122"))
     print(FCE.get_fce_info("15112"))
     print(FCE.get_fce_info("Fundamentals"))
+    print(FCE.get_fce_info("12345"))
 
 
