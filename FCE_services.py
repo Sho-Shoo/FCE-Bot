@@ -75,5 +75,6 @@ if __name__ =="__main__":
     print(FCE.get_fce_info("15112"))
     print(FCE.get_fce_info("Fundamentals"))
     print(FCE.get_fce_info("12345"))
+    print(FCE.get_fce_info("    67-262  "))
 
 
