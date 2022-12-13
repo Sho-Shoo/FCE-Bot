@@ -3,17 +3,26 @@ import FCE_services
 import psycopg2
 import sys
 
+
+def get_auth(auth_file): 
+    """
+    Returns authorization information as a tuple
+    """
+    tup = tuple()
+    with open(auth_file, 'r') as auth: 
+        infos = auth.readlines() 
+        for info in infos: tup += (info,)
+
+    return tup
+
+
 ################################################################################
 # Server setup
 ################################################################################
-token = 'token'
-TEST_APP_ID = 'wx279feebefe92554b'
-TEST_APP_SECRET = 'a926374c46290d02d7ed37771bae8f64'
+TOKEN, TEST_APP_ID, TEST_APP_SECRET, \
+ACTUAL_APP_SECRET, ACTUAL_APP_ID = get_auth("wechat_auth.txt")
 
-ACTUAL_APP_SECRET = '713cd7f2002ffcd9c84e7fcd7635448f'
-ACTUAL_APP_ID = 'wx96478d0e33536a7a'
-
-robot = werobot.WeRoBot(token=token)
+robot = werobot.WeRoBot(token=TOKEN)
 robot.config['HOST'] = '0.0.0.0'
 robot.config['PORT'] = '8080'
 robot.config['APP_ID'] = ACTUAL_APP_ID 
