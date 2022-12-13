@@ -49,7 +49,7 @@ with open("logo.txt", "r") as txt:
      logo = txt.read() 
      logo = logo.replace(" ", "  ") # double spacing to fit wechat chatbox display
 
-subscribe_txt = "Welcome to ShoShoBot, it provides CMU FCE querying services. Type course number to continue."
+subscribe_txt = "Welcome to FCE-Bot, which provides CMU FCE querying services. Type course number to continue."
 subscribe_msg = logo + "\n" + subscribe_txt
 
 ################################################################################
