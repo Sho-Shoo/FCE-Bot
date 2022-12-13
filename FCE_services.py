@@ -19,7 +19,7 @@ class FCE_services:
         rows = self.cur.fetchall()
 
         if len(rows) == 0: 
-            return "No records found. "
+            return "No record found. "
         else: 
             res_str = "====================\n"
             for row in rows: 
