@@ -1,9 +1,7 @@
-version: '0.1.0'
+version: '3.3'
 services:
   visualizer-service:
     container_name: fce-bot
     image: fce-bot:latest
-    cpus: 1
-    mem_limit: 2048m
     ports:
-      - "8080:8080"
+      - "80:80"

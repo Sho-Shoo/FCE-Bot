@@ -9,8 +9,8 @@ RUN pip install -r requirements.txt
 
 COPY . /code
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT [ "gunicorn" ]
 
-CMD ["-b", "0.0.0.0:8080", "fce_bot.main:server"]
+CMD ["-b", ":80", "-w", "4", "fce_bot.main:server"]
