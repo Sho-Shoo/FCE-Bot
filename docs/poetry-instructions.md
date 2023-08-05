@@ -9,6 +9,7 @@ If there is already a `pyproject.toml` file in project root, you can simply crea
 
 - `poetry add <denependency_name>` to add a dependency 
 - `poetry remove <denependency_name>` to remove a dependency
+- `poetry export --without-hashes --format=requirements.txt > requirements.txt` to freeze the installed dependencies to `requirements.txt` file
 
 The two commands above will change both `pyproject.toml` and `poetry.lock` files, and install the package in your venv. 
 If you ever need to update `pyproject.toml` yourself, use `poetry lock` to update lock file. 

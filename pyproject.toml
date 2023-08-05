@@ -10,6 +10,7 @@ packages = [{include = "fce_bot"}]
 python = "^3.9"
 werobot = "^1.13.1"
 gunicorn = "^21.2.0"
+pymongo = "^4.4.1"
 
 
 [build-system]
