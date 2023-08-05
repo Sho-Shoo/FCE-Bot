@@ -56,7 +56,7 @@ except Exception as e:
 ################################################################################
 
 # formulate subscribe message 
-with open("logo.txt", "r") as txt: 
+with open("../logo.txt", "r") as txt:
      logo = txt.read() 
      logo = logo.replace(" ", "  ") # double spacing to fit wechat chatbox display
 

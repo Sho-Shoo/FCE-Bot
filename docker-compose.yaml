@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+  visualizer-service:
+    container_name: fce-bot
+    image: fce-bot:latest
+    ports:
+      - "80:80"
