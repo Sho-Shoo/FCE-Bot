@@ -1,7 +1,29 @@
 version: '3.3'
 services:
-  visualizer-service:
+  bot-service:
     container_name: fce-bot
     image: fce-bot:latest
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/
     ports:
       - "80:80"
+    depends_on:
+      - mongodb
+    networks:
+      - bot-network
+
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - bot_mongodb:/data/db
+    networks:
+      - bot-network
+
+volumes:
+  bot_mongodb:
+
+networks:
+  bot-network:
+    driver: bridge
