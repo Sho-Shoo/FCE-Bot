@@ -11,6 +11,8 @@ COPY . /code
 
 EXPOSE 80
 
+# RUN python -c "from fce_bot.db.fce_data_transform import transform_main; transform_main()"
+
 ENTRYPOINT [ "gunicorn" ]
 
 CMD ["-b", ":80", "-w", "4", "fce_bot.main:server"]

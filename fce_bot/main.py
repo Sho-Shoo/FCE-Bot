@@ -52,6 +52,7 @@ try:
 except pymongo.errors.ServerSelectionTimeoutError as e:
     logger.error("Connection with MongoDB fails")
     raise ConnectionError("Connection with MongoDB fails")
+db = mongo_client["fce_db"]
 ################################################################################
 
 @robot.text
