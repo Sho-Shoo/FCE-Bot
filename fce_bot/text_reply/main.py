@@ -1,5 +1,6 @@
 from werobot.messages.messages import TextMessage
 from pymongo.database import Database
+import traceback
 
 
 class TextMessageReplier:
@@ -23,21 +24,26 @@ class TextMessageReplier:
     def reply(self, message):
         text = message.content
         if is_course_number(text):
-            course_number = format_course_number(text)
+            course_number: int = format_course_number(text)
             result = self.query_course(course_number)
             return result
         else:
             return "无法解析查询"
 
-    def query_course(self, course_number: str) -> str:
-        results = list(self.db.fce_records.find({'cnum': course_number}))
-        return str(results)
+    def query_course(self, course_number: int) -> str:
+        try:
+            results = list(self.db.fce_records.find({'cnum': int(course_number)}))
+            return str(results)
+        except Exception as e:
+            self.logger.error(f"Following error happened: {e}")
+            tb = traceback.format_exc()
+            self.logger.error(tb)
 
 
-def format_course_number(text: str) -> str:
+def format_course_number(text: str) -> int:
     text = text.replace('-', '')
     text = text.strip()
-    return text
+    return int(text)
 
 
 def is_course_number(text: str) -> bool:
