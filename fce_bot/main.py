@@ -55,10 +55,6 @@ except pymongo.errors.ServerSelectionTimeoutError as e:
 db = mongo_client["fce_db"]
 ################################################################################
 
-@robot.text
-def fce_by_text(message):
-    return "Hello world!"
-
 
 @robot.subscribe
 def get_subscribe_msg():
