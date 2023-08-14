@@ -6,7 +6,7 @@ import werobot
 import pathlib
 from pymongo import MongoClient
 import os
-from fce_bot.text_reply.main import text_reply_main
+from fce_bot.text_reply.main import TextMessageReplier
 
 # reading authentication and configurations
 project_root = pathlib.Path(__file__).parent.parent.resolve()
@@ -56,7 +56,9 @@ except pymongo.errors.ServerSelectionTimeoutError as e:
 db = mongo_client["fce_db"]
 ################################################################################
 
-robot.text(lambda message: text_reply_main(message, db, logger))
+text_replier = TextMessageReplier(db, logger)
+
+robot.text(lambda message: TextMessageReplier.reply(message))
 
 @robot.subscribe
 def get_subscribe_msg():
