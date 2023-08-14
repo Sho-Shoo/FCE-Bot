@@ -58,7 +58,7 @@ db = mongo_client["fce_db"]
 
 text_replier = TextMessageReplier(db, logger)
 
-robot.text(lambda message: TextMessageReplier.reply(message))
+robot.text(lambda message: text_replier.reply(message))
 
 @robot.subscribe
 def get_subscribe_msg():
