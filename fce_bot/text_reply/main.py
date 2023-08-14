@@ -50,5 +50,8 @@ def is_course_number(text: str) -> bool:
     """
     Checks if a string is a valid CMU course number, i.e., 15-213, 15112, etc.
     """
-    text = format_course_number(text)
-    return text.isdigit() and len(text) <= 5
+    try:
+        course_number = format_course_number(text)
+        return len(str(course_number)) <= 5
+    except ValueError:
+        return False
