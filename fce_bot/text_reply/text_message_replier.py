@@ -87,5 +87,5 @@ def format_document(document: dict) -> str:
                 f"教授: {instructor}\n" \
                 f"评分: {rating}\n" \
                 f"小时数: {hour}\n" \
-                f"以往任教: {offerings}\n"
+                f"以往任教: {offerings}\n\n"
     return formatted

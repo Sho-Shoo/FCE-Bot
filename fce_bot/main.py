@@ -62,5 +62,6 @@ robot.text(lambda message: text_replier.reply(message))
 
 @robot.subscribe
 def get_subscribe_msg():
-    return "Welcome here!"
+    return "你好，欢迎使用CMU生活服务号CMU Bot！我们现在支持以下功能：\n" \
+           "1. 使用课程号码进行FCE信息查询；您可以尝试发送'15213'给机器人"
 
