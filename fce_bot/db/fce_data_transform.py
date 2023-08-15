@@ -9,7 +9,7 @@ YEAR = TODAY.year
 
 class FCEDataTransformer:
 
-    def __init__(self, mongo_db: Database, trace_back: int = 3):
+    def __init__(self, mongo_db: Database, trace_back: int = 4):
         """
         Stores the DB object within the object
         Parameters:
@@ -25,7 +25,7 @@ class FCEDataTransformer:
         """
         raw_data_collection = self.db["fce_raw"]
         raw_data_collection.drop()  # reset raw data collection
-        raw_data_frame = pd.read_csv(fce_data_file_path, index_col=False)
+        raw_data_frame = pd.read_csv(fce_data_file_path, dtype={'Num': 'string'}, index_col=False)
         raw_data_collection.insert_many(raw_data_frame.to_dict("records"))
 
     def transform_raw_data(self):

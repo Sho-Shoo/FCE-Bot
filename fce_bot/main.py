@@ -6,7 +6,7 @@ import werobot
 import pathlib
 from pymongo import MongoClient
 import os
-from fce_bot.text_reply.main import TextMessageReplier
+from fce_bot.text_reply.text_message_replier import TextMessageReplier
 
 # reading authentication and configurations
 project_root = pathlib.Path(__file__).parent.parent.resolve()
