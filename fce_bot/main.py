@@ -6,6 +6,7 @@ import werobot
 import pathlib
 from pymongo import MongoClient
 import os
+from fce_bot.text_reply.text_message_replier import TextMessageReplier
 
 # reading authentication and configurations
 project_root = pathlib.Path(__file__).parent.parent.resolve()
@@ -55,12 +56,12 @@ except pymongo.errors.ServerSelectionTimeoutError as e:
 db = mongo_client["fce_db"]
 ################################################################################
 
-@robot.text
-def fce_by_text(message):
-    return "Hello world!"
+text_replier = TextMessageReplier(db, logger)
 
+robot.text(lambda message: text_replier.reply(message))
 
 @robot.subscribe
 def get_subscribe_msg():
-    return "Welcome here!"
+    return "你好，欢迎使用CMU生活服务号CMU Bot！我们现在支持以下功能：\n\n" \
+           "1. 使用课程号码进行FCE信息查询；您可以尝试发送'15213'给机器人"
 

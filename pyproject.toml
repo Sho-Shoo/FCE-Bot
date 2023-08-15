@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fce-bot"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["Tianze Shou <shoutianze@outlook.com>"]
 readme = "README.md"
