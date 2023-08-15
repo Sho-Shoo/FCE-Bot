@@ -85,7 +85,7 @@ def format_document(document: dict) -> str:
     offerings = ", ".join(sorted(document["offerings"]))
     formatted = f"课号: {course_number}\n" \
                 f"教授: {instructor}\n" \
-                f"评分: {rating}\n" \
-                f"小时数: {hour}\n" \
+                f"评分: {round(rating, 2)}\n" \
+                f"小时数: {round(hour, 2)}\n" \
                 f"以往任教: {offerings}\n\n"
     return formatted
