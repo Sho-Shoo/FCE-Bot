@@ -1,5 +1,9 @@
-# wechat serve authentification 
+# IDEA stuff
+.idea/
+
+# wechat server authentification
 wechat_auth.txt
+auth.json
 
 # os stuff
 .DS_Store

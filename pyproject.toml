@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "fce-bot"
+version = "1.0.0"
+description = ""
+authors = ["Tianze Shou <shoutianze@outlook.com>"]
+readme = "README.md"
+packages = [{include = "fce_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+werobot = "^1.13.1"
+gunicorn = "^21.2.0"
+pymongo = "^4.4.1"
+pandas = "^2.0.3"
+pytest = "^7.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
