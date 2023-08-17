@@ -59,7 +59,7 @@ def transform_main():
     Main function to populate the database with FCE CSV file.
     """
     transformer = FCEDataTransformer(db)
-    transformer.populate_raw_data(project_root / "database/Section_By_Section_Analysis_.csv")
+    transformer.populate_raw_data(project_root / "data/Section_By_Section_Analysis_.csv")
     logger.info("FCE data ETL completed! Please see preview below: ")
     documents = db["fce_raw"].find().limit(10)
     logger.info("\n".join([str(doc) for doc in documents]))
