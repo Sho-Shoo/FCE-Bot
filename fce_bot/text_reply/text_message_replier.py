@@ -63,17 +63,25 @@ class TextMessageReplier:
             self.logger.error(tb)
             return "出现错误"
 
-    def record_course_number_query(self, message: TextMessage):
-        user_id = message.source
-        time = message.time  # this will be a epoch time stamp integer
-        query = format_course_number(message.content)
-        document = {
-            'user_id': user_id,
-            'query': query,
-            'time': time
-        }
-        self.db['query_records'].insert_one(document)
-        self.logger.info(f"User <{user_id}> made query <{query}> at <{time}> ")
+    def record_course_number_query(self, message: TextMessage) -> None:
+        """
+        Insert user input query message into DB
+        """
+        try:
+            user_id = message.source
+            time = message.time  # this will be a epoch time stamp integer
+            query = format_course_number(message.content)
+            document = {
+                'user_id': user_id,
+                'query': query,
+                'time': time
+            }
+            self.db['query_records'].insert_one(document)
+            self.logger.info(f"User <{user_id}> made query <{query}> at <{time}> ")
+        except Exception as e:
+            self.logger.error(f"Following error happened: {e}")
+            tb = traceback.format_exc()
+            self.logger.error(tb)
 
 
 def format_course_number(text: str) -> str:
