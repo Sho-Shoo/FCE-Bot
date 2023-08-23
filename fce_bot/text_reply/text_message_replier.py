@@ -64,7 +64,7 @@ class TextMessageReplier:
 
     def record_course_number_query(self, message: TextMessage):
         user_id = message.source
-        time = message.time
+        time = message.time  # this will be a epoch time stamp integer
         query = format_course_number(message.content)
         document = {
             'user_id': user_id,
