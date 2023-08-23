@@ -7,8 +7,11 @@ import pathlib
 from pymongo import MongoClient
 import os
 from fce_bot.text_reply.text_message_replier import TextMessageReplier
+from werobot.session.mongodbstorage import MongoDBStorage
 
-# reading authentication and configurations
+################################################################################
+# Reading authentication and configurations
+################################################################################
 project_root = pathlib.Path(__file__).parent.parent.resolve()
 auth_file = open(project_root / "auth.json")
 auth_info = json.load(auth_file)
@@ -17,6 +20,7 @@ TEST_APP_ID = auth_info["TEST_APP_ID"]
 TEST_APP_SECRET = auth_info["TEST_APP_SECRET"]
 ACTUAL_APP_ID = auth_info["ACTUAL_APP_ID"]
 ACTUAL_APP_SECRET = auth_info["ACTUAL_APP_SECRET"]
+################################################################################
 
 
 ################################################################################
@@ -25,7 +29,6 @@ ACTUAL_APP_SECRET = auth_info["ACTUAL_APP_SECRET"]
 robot = werobot.WeRoBot(token=TOKEN)
 robot.config['APP_ID'] = ACTUAL_APP_ID
 robot.config['APP_SECRET'] = ACTUAL_APP_SECRET
-server = robot.wsgi
 ################################################################################
 
 ################################################################################
@@ -54,14 +57,21 @@ except pymongo.errors.ServerSelectionTimeoutError as e:
     logger.error("Connection with MongoDB fails")
     raise ConnectionError("Connection with MongoDB fails")
 db = mongo_client["fce_db"]
+# use mongo db to do session storage
+session_collection = db["session"]
+session_storage = MongoDBStorage(session_collection)
+robot.config['SESSION_STORAGE'] = session_storage
 ################################################################################
 
 text_replier = TextMessageReplier(db, logger)
 
-robot.text(lambda message: text_replier.reply(message))
+robot.text(lambda message, session: text_replier.reply(message, session))
+
 
 @robot.subscribe
 def get_subscribe_msg():
     return "你好，欢迎使用CMU生活服务号CMU Bot！我们现在支持以下功能：\n\n" \
            "1. 使用课程号码进行FCE信息查询；您可以尝试发送'15213'给机器人"
 
+
+server = robot.wsgi
