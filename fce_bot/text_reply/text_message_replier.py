@@ -34,7 +34,8 @@ class TextMessageReplier:
         if is_course_number(text):
             course_number: str = format_course_number(text)
             result = self.query_course(course_number)
-            self.record_course_number_query(message)
+            if result != "未找到对应课程":
+                self.record_course_number_query(message)
             return result
         else:
             return "无法解析查询"
