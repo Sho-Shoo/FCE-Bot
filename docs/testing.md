@@ -1,3 +1,9 @@
 # Testing 
 
-We use `pytest` in this project. To run the test suite, please run `python -m pytest` from project root. 
+## Testing within container 
+
+Since we use containers to wrap the project, you can run tests in the `fce-bot` container using: 
+
+```commandline
+docker exec -it fce-bot python -m pytest 
+```
