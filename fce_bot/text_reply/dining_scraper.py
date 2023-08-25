@@ -25,6 +25,7 @@ class DiningScraper:
             # TODO: write code here
             # TODO: consider writing this method using a TTL cache (say time_to_live = 30 secs). In this way, we can 1)
             # TODO: speed up the application, 2) reduce number of times we hit the dining location website
+            # TODO: Reading for TTLCache is here: https://www.geeksforgeeks.org/cachetools-module-in-python/
             raise NotImplementedError
         except Exception as e:
             self.logger.error(f"Following error happened: {e}")
