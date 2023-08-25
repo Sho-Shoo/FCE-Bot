@@ -10,3 +10,8 @@ def test_text_reply():
     print(reply)
 
     assert tester.send_xml(make_xml("00000"))._args['content'] == u"未找到对应课程"
+
+
+def test_unknown_query():
+    reply = tester.send_xml(make_xml("xxxxxxxxxxxxx"))._args['content']
+    assert reply == "无法解析查询"

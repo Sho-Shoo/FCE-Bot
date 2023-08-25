@@ -21,11 +21,12 @@ class TextMessageReplier:
         self.db = db
         self.logger = logger
 
-    def reply(self, message):
+    def reply(self, message: TextMessage, session: dict):
         """
         Reply to a text message
         Parameters:
             message (TextMessage): User input message
+            session (dict): User session info
         Returns:
             str: Reply string
         """
@@ -33,6 +34,8 @@ class TextMessageReplier:
         if is_course_number(text):
             course_number: str = format_course_number(text)
             result = self.query_course(course_number)
+            if result != "未找到对应课程":
+                self.record_course_number_query(message)
             return result
         else:
             return "无法解析查询"
@@ -42,7 +45,7 @@ class TextMessageReplier:
             reply = ""
             result_documents = self.db.fce_records.aggregate([
                 {'$match': {'cnum': course_number}},
-                {'$addFields': {'offering_length': { "$size": "$offerings" }}},
+                {'$addFields': {'offering_length': {"$size": "$offerings"}}},
                 {'$sort': {
                     'offering_length': -1,
                     'instructor': 1
@@ -59,6 +62,26 @@ class TextMessageReplier:
             tb = traceback.format_exc()
             self.logger.error(tb)
             return "出现错误"
+
+    def record_course_number_query(self, message: TextMessage) -> None:
+        """
+        Insert user input query message into DB
+        """
+        try:
+            user_id = message.source
+            time = message.time  # this will be a epoch time stamp integer
+            query = format_course_number(message.content)
+            document = {
+                'user_id': user_id,
+                'query': query,
+                'time': time
+            }
+            self.db['query_records'].insert_one(document)
+            self.logger.info(f"User <{user_id}> made query <{query}> at <{time}> ")
+        except Exception as e:
+            self.logger.error(f"Following error happened: {e}")
+            tb = traceback.format_exc()
+            self.logger.error(tb)
 
 
 def format_course_number(text: str) -> str:
