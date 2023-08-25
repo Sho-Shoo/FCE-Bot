@@ -28,3 +28,8 @@ def test_dining_query():
     reply = tester.send_xml(make_xml("Revo"))._args['content']
     assert "Revolution Noodle" in reply
     assert "营业" in reply or "关门" in reply
+
+
+def test_unknown_query():
+    reply = tester.send_xml(make_xml("xxxxxxxxxxxxx"))._args['content']
+    assert reply == "无法解析查询"
