@@ -1,5 +1,6 @@
 from werobot.messages.messages import TextMessage
 from pymongo.database import Database
+from fce_bot.text_reply.dining_scraper import DiningScraper
 import traceback
 
 
@@ -20,6 +21,7 @@ class TextMessageReplier:
         """
         self.db = db
         self.logger = logger
+        self.dining_scraper = DiningScraper(logger)
 
     def reply(self, message):
         """
@@ -29,11 +31,13 @@ class TextMessageReplier:
         Returns:
             str: Reply string
         """
-        text = message.content
+        text: str = message.content
         if is_course_number(text):
             course_number: str = format_course_number(text)
             result = self.query_course(course_number)
             return result
+        elif dining_location_reply := self.dining_scraper.query_dining_location(text):
+            return dining_location_reply
         else:
             return "无法解析查询"
 
