@@ -42,10 +42,9 @@ class CanvasScraper:
 
             return courses_assignments
         except Exception as e:
-            raise e
-            # self.logger.error(f"Following error happened: {e}")
-            # tb = traceback.format_exc()
-            # self.logger.error(tb)
+            self.logger.error(f"Following error happened: {e}")
+            tb = traceback.format_exc()
+            self.logger.error(tb)
 
     def _get_courses(self, api_key: str) -> list[Course]:
         """
@@ -55,7 +54,8 @@ class CanvasScraper:
         valid_courses = [course for course in courses if hasattr(course, 'course_code')]
         return valid_courses
 
-    def _get_assignments_of_user_and_course(self, user: User, course: Course,
+    @staticmethod
+    def _get_assignments_of_user_and_course(user: User, course: Course,
                                             after: datetime) -> list[tuple[Course, Assignment]]:
         """
         Get the future assignments after a certain datetime (tupled with Course objects) of a user-course pair

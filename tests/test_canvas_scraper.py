@@ -15,6 +15,7 @@ scraper = CanvasScraper(logger, thread_exec)
 est = timezone("US/Eastern")
 after_time = datetime(2022, 1, 1, 12, 0, 0, 0, tzinfo=est)
 
+
 @pytest.mark.asyncio
 async def test_get_future_assignments():
     courses_assignments = await scraper.get_future_assignments(API_KEY, after=after_time)
