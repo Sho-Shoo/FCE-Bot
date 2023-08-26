@@ -4,17 +4,20 @@ from datetime import datetime
 from canvasapi.assignment import Assignment
 from canvasapi.course import Course
 from pytz import timezone
+from concurrent.futures import ThreadPoolExecutor
+import pytest
 
 API_URL = "https://canvas.cmu.edu/"
 API_KEY = "7752~F857Z1znbTlmy1zh0gWJHAwXTCcbNeQPVCtU2aGbTNDGOniwrSVc461CETNNNwe7"
 
-scraper = CanvasScraper(logger)
+thread_exec = ThreadPoolExecutor(max_workers=8)
+scraper = CanvasScraper(logger, thread_exec)
 est = timezone("US/Eastern")
 after_time = datetime(2022, 1, 1, 12, 0, 0, 0, tzinfo=est)
 
-
-def test_get_future_assignments():
-    courses_assignments = scraper.get_future_assignments(API_KEY, after=after_time)
+@pytest.mark.asyncio
+async def test_get_future_assignments():
+    courses_assignments = await scraper.get_future_assignments(API_KEY, after=after_time)
     courses, assignments = [c_a[0] for c_a in courses_assignments], [c_a[1] for c_a in courses_assignments]
     assert len(assignments) > 0
     assert len(courses) > 0

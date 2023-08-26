@@ -6,15 +6,17 @@ from canvasapi.paginated_list import PaginatedList
 from canvasapi.user import User
 from datetime import datetime
 from pytz import timezone
+from concurrent.futures import ThreadPoolExecutor
 
 
 class CanvasScraper:
 
-    def __init__(self, logger):
+    def __init__(self, logger, thread_exec: ThreadPoolExecutor):
         self.url = "https://canvas.cmu.edu/"
         self.logger = logger
+        self.thread_exec = thread_exec
 
-    def get_future_assignments(self, api_key: str, after: datetime = None) -> list[tuple[Course, Assignment]]:
+    async def get_future_assignments(self, api_key: str, after: datetime = None) -> list[tuple[Course, Assignment]]:
         """
         Get a list of future assignments (after certain datetime, default to be now), tupled with corresponding Course
         objects
@@ -26,15 +28,24 @@ class CanvasScraper:
         try:
             user = Canvas(self.url, api_key).get_current_user()
             courses = self._get_courses(api_key)
-            future_assignments: list[tuple[Course, Assignment]] = []
+            futures = []
             for course in courses:
-                future_assignments += self._get_assignments_of_user_and_course(user, course, after)
+                future = self.thread_exec.submit(self._get_assignments_of_user_and_course, user, course, after)
+                futures.append(future)
+            for i in range(len(futures)):
+                futures[i] = futures[i].result()
 
-            return future_assignments
+            courses_assignments: list[tuple[Course, Assignment]] = []
+            for future in futures:
+                for course_assignment in future:
+                    courses_assignments.append(course_assignment)
+
+            return courses_assignments
         except Exception as e:
-            self.logger.error(f"Following error happened: {e}")
-            tb = traceback.format_exc()
-            self.logger.error(tb)
+            raise e
+            # self.logger.error(f"Following error happened: {e}")
+            # tb = traceback.format_exc()
+            # self.logger.error(tb)
 
     def _get_courses(self, api_key: str) -> list[Course]:
         """
