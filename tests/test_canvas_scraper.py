@@ -1,5 +1,5 @@
 from fce_bot.main import logger
-from fce_bot.text_reply.canvas_scraper import CanvasScraper
+from fce_bot.canvas_reminder.canvas_scraper import CanvasScraper
 from datetime import datetime
 from canvasapi.assignment import Assignment
 from canvasapi.course import Course

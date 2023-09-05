@@ -9,7 +9,7 @@ from pytz import timezone
 from concurrent.futures import ThreadPoolExecutor
 
 
-class CanvasScraper:
+class CanvasScraper(object):
 
     def __init__(self, logger, thread_exec: ThreadPoolExecutor):
         self.url = "https://canvas.cmu.edu/"

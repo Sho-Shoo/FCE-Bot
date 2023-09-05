@@ -26,9 +26,9 @@ Run the following command from project root to setup the FCE records in MongoDB 
 python -c "from fce_bot.db.fce_data_transform import transform_main; transform_main()"
 ```
 
-Run the following command to flush and setup the user query records collection (**Do not use the production since it 
+Run the following command to flush and setup the user info related collections (**Do not use the production since it 
 will wipe out all data**): 
 
 ```commandline
-python -c "from fce_bot.db.create_query_records_collection import create_query_records_collection; create_query_records_collection()"
+python -c "from fce_bot.db.init_db import init_db; init_db()"
 ```
