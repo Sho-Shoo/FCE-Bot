@@ -29,6 +29,7 @@ ACTUAL_APP_SECRET = auth_info["ACTUAL_APP_SECRET"]
 robot = werobot.WeRoBot(token=TOKEN)
 robot.config['APP_ID'] = ACTUAL_APP_ID
 robot.config['APP_SECRET'] = ACTUAL_APP_SECRET
+wechat_client = robot.client
 ################################################################################
 
 ################################################################################

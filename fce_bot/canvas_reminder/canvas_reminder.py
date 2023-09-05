@@ -28,8 +28,8 @@ class CanvasReminder(object):
             (str): result message if whether key validation is correct
         """
         if await self._validate_api_key(canvas_api_key):
-            await self.db.canvas_reminder_users.insert_one({'user_id': user_id,
-                                                            'canvas_api_key': canvas_api_key})
+            self.db.canvas_reminder_users.insert_one({'user_id': user_id,
+                                                      'canvas_api_key': canvas_api_key})
             return "API Key验证成功，Canvas作业截止提醒服务将于明日启动"
         else:
             return "API Key验证失败，请检查并重试"
@@ -44,7 +44,7 @@ class CanvasReminder(object):
         Raises:
             LookupError
         """
-        user_document = await self.db.canvas_reminder_users.find_one({'user_id': user_id})
+        user_document = self.db.canvas_reminder_users.find_one({'user_id': user_id})
         if user_document and user_document.get("canvas_api_key"):
             return user_document.get("canvas_api_key")
         else:
@@ -54,7 +54,7 @@ class CanvasReminder(object):
         try:
             canvas = Canvas(self.url, api_key)
             future: Future = self.thread_exec.submit(canvas.get_current_user)
-            user = await future.result()
+            user = future.result()
             return True
         except InvalidAccessToken as e:
             return False
