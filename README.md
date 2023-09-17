@@ -1,17 +1,25 @@
 # FCE-Bot 
 
-Began as a personal learning project to get familiar with AWS EC2 and Linux. It gradually evolved to a WeRobot server that implements auto-reply feature for a Wechat public account. This feature enables querying of CMU FCE (Faculty Couse Evaluation) information, which comes rather handy during course registration periods. 
+Wechat chatbot service to query Carnegie Mellon University Faculty Course Evaluation (FCE) info. Backend service is 
+deployed on AWS EC2 with Docker. Any WeChat user can access this service by searching for "CMU Bot" account. We strive 
+to become the one stop shop for CMU community information so the following feature is also scheduled for development: 
 
-## Dependencies 
+- Canvas assignment deadline reminder service 
+- CMU dining location operation hour lookup 
+- Library reservable public space lookup 
 
-- Python 3.x 
-- Werobot 1.13.1
-- Postgres 14 with a user named `ec2-user` 
+**Any open-source contribution will be highly appreciated!**
 
-Or simply execute `$ pip install -r requirements.txt` to install Python dependencies. 
+## Author(s) 
 
-## Setup 
+- [Tianze (Steven) Shou](https://github.com/Sho-Shoo) ([LinkedIn](https://www.linkedin.com/in/tianze-shou-528510247/)), 
+CMU '24 Information Systems, **currently on job market** for full-time SDE roles
+- Wenhan (Flora) Li, CMU '24 Statistics & Machine Learning 
 
-- Execute `$ psql -U "ec2-user" -d postgres -f database/initialize.sql` to initialize database. 
-- Execute `$ bash launch.sh` to start the service as a background process. 
-- Execute `$ python FCE_bot.py` to run as foreground for debugging. 
+## Feature demo 
+
+### FCE info lookup 
+
+<video src="readme_resources/fce_lookup.MP4"></video>
+
+<img src="readme_resources/fce_lookup.gif"></img>
