@@ -20,6 +20,4 @@ CMU '24 Information Systems, **currently on job market** for full-time SDE roles
 
 ### FCE info lookup 
 
-<video src="readme_resources/fce_lookup.MP4"></video>
-
-<img src="readme_resources/fce_lookup.gif"></img>
+<p align="center"><img src="readme_resources/fce_lookup.gif" width = 400></p>
