@@ -63,7 +63,7 @@ class CanvasScraper(object):
         est = timezone("US/Eastern")
         assignments: PaginatedList = user.get_assignments(course)
         future_assignments = [a for a in assignments if a.due_at and
-                              datetime.strptime(a.due_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=est) > after]
+                              datetime.strptime(a.due_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=est) > after]  # TODO: change timezone to UTC
         result = [(course, a) for a in future_assignments]
         return result
 
