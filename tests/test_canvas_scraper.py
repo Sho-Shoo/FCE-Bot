@@ -14,11 +14,13 @@ thread_exec = ThreadPoolExecutor(max_workers=8)
 scraper = CanvasScraper(logger, thread_exec)
 est = timezone("US/Eastern")
 after_time = datetime(2022, 1, 1, 12, 0, 0, 0, tzinfo=est)
+before_time = datetime(2023, 1, 1, 12, 0, 0, 0, tzinfo=est)
+
 
 
 @pytest.mark.asyncio
 async def test_get_future_assignments():
-    courses_assignments = await scraper.get_future_assignments(API_KEY, after=after_time)
+    courses_assignments = await scraper.get_future_assignments(API_KEY, before=before_time, after=after_time)
     courses, assignments = [c_a[0] for c_a in courses_assignments], [c_a[1] for c_a in courses_assignments]
     assert len(assignments) > 0
     assert len(courses) > 0

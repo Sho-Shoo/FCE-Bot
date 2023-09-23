@@ -1,10 +1,11 @@
 import traceback
+import pytz
 from canvasapi import Canvas
 from canvasapi.course import Course
 from canvasapi.assignment import Assignment
 from canvasapi.paginated_list import PaginatedList
 from canvasapi.user import User
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 from concurrent.futures import ThreadPoolExecutor
 
@@ -16,21 +17,23 @@ class CanvasScraper(object):
         self.logger = logger
         self.thread_exec = thread_exec
 
-    async def get_future_assignments(self, api_key: str, after: datetime = None) -> list[tuple[Course, Assignment]]:
+    async def get_future_assignments(self, api_key: str,
+                                     before: datetime = None,
+                                     after: datetime = None) -> list[tuple[Course, Assignment]]:
         """
         Get a list of future assignments (after certain datetime, default to be now), tupled with corresponding Course
-        objects
+        objects. If `before` and `after` are not specified, assignments due in the next 24 hours will be returned
         """
-        if not after:
-            est = timezone("US/Eastern")
-            after = datetime.now(est)
+        est = timezone("US/Eastern")
+        if not after: after = datetime.now(est)
+        if not before: before = after + timedelta(days=1)
 
         try:
             user = Canvas(self.url, api_key).get_current_user()
             courses = self._get_courses(api_key)
             futures = []
             for course in courses:
-                future = self.thread_exec.submit(self._get_assignments_of_user_and_course, user, course, after)
+                future = self.thread_exec.submit(self._get_assignments_of_user_and_course, user, course, before, after)
                 futures.append(future)
             for i in range(len(futures)):
                 futures[i] = futures[i].result()
@@ -56,14 +59,16 @@ class CanvasScraper(object):
 
     @staticmethod
     def _get_assignments_of_user_and_course(user: User, course: Course,
-                                            after: datetime) -> list[tuple[Course, Assignment]]:
+                                            before: datetime, after: datetime) -> list[tuple[Course, Assignment]]:
         """
         Get the future assignments after a certain datetime (tupled with Course objects) of a user-course pair
         """
         est = timezone("US/Eastern")
         assignments: PaginatedList = user.get_assignments(course)
         future_assignments = [a for a in assignments if a.due_at and
-                              datetime.strptime(a.due_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=est) > after]  # TODO: change timezone to UTC
+                              after < datetime.strptime(a.due_at, "%Y-%m-%dT%H:%M:%SZ")
+                              .replace(tzinfo=pytz.utc).astimezone(est) < before]
+
         result = [(course, a) for a in future_assignments]
         return result
 
