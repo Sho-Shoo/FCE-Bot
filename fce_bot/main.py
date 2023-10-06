@@ -13,7 +13,10 @@ from werobot.session.mongodbstorage import MongoDBStorage
 # Reading authentication and configurations
 ################################################################################
 project_root = pathlib.Path(__file__).parent.parent.resolve()
-auth_file = open(project_root / "auth.json")
+try:
+    auth_file = open(project_root / "auth.json")
+except FileNotFoundError:
+    auth_file = open(project_root / "test_auth.json")  # fake auth info for CI usage
 auth_info = json.load(auth_file)
 TOKEN = auth_info["TOKEN"]
 TEST_APP_ID = auth_info["TEST_APP_ID"]

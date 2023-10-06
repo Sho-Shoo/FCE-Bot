@@ -1,0 +1,35 @@
+name: Test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: |
+          timeout 2m docker build -t fce-bot .
+
+      - name: Start Docker containers
+        run: |
+          timeout 2m docker-compose up -d 
+          sleep 3
+          docker logs fce-bot
+
+      - name: Run ETL
+        run: |
+          timeout 2m docker exec fce-bot python -c "from fce_bot.db.fce_data_transform import transform_main; transform_main()"
+
+      - name: Run tests
+        run: |
+          timeout 5m docker exec fce-bot python -m pytest 
+
+      - name: Stop and remove containers
+        run: |
+          docker-compose down
