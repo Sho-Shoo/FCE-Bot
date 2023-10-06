@@ -21,6 +21,7 @@ jobs:
           timeout 2m docker-compose up -d 
           sleep 3
           docker logs fce-bot
+          timeout 2m docker exec fce-bot python -c "from fce_bot.db.fce_data_transform import transform_main; transform_main()"
           timeout 5m docker exec fce-bot python -m pytest 
 
 #      - name: Wait for containers to start
