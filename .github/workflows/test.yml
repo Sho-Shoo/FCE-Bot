@@ -25,7 +25,7 @@ jobs:
 
       - name: Run tests
         run: |
-          timeout 5m docker exec -it fce-bot python -m pytest 
+          timeout 5m docker exec -T fce-bot python -m pytest 
 
       - name: Stop and remove containers
         run: |
