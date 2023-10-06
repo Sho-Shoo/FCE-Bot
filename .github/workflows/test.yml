@@ -19,6 +19,7 @@ jobs:
       - name: Start Docker containers
         run: |
           timeout 2m docker-compose up -d 
+          docker logs fce-bot
 
       - name: Wait for containers to start
         run: sleep 10 # Adjust the sleep time as needed
