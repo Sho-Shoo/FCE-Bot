@@ -16,17 +16,18 @@ jobs:
         run: |
           timeout 2m docker build -t fce-bot .
 
-      - name: Start Docker containers
+      - name: Start Docker containers and run test
         run: |
           timeout 2m docker-compose up -d 
+          sleep 3
           docker logs fce-bot
-
-      - name: Wait for containers to start
-        run: sleep 10 # Adjust the sleep time as needed
-
-      - name: Run tests
-        run: |
           timeout 5m docker exec fce-bot python -m pytest 
+
+#      - name: Wait for containers to start
+#        run: sleep 10 # Adjust the sleep time as needed
+
+#      - name: Run tests
+#        run: |
 
       - name: Stop and remove containers
         run: |
